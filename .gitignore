@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# Logs and outputs
+logs/*
+!logs/README.md
+outputs/*
+!outputs/README.md
+*.log
+*.tmp
+
+# Large or generated data
+data/**/*.csv
+data/**/*.xlsx
+data/**/*.xls
+data/**/*.zip
+data/**/*.shp
+data/**/*.shx
+data/**/*.dbf
+data/**/*.prj
+data/**/*.cpg
+data/**/*.gpkg
+data/**/*.geojson
+!data/README.md
+
+# Credentials and local configs
+*.env
+.env
+rclone.conf
+**/rclone.conf
+*token*
+*credential*
+*credentials*
+*oauth*
+*.json
+!scripts/**/*.json
+
+# Manuscript files
+*.docx
+*.pdf

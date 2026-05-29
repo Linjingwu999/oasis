@@ -1,0 +1,5 @@
+numpy>=1.23
+pandas>=1.5
+openpyxl>=3.1
+earthengine-api>=0.1.385
+geopandas>=0.13; platform_system != "Windows"
