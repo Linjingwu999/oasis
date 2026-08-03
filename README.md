@@ -21,8 +21,6 @@ global-oasis-supplementary-code/
 |-- .gitignore
 |-- data/
 |   `-- README.md
-|-- figures/
-|   `-- Supplementary_Figure_S2_OasisID_workflow.png
 |-- logs/
 |   `-- README.md
 |-- outputs/
@@ -34,13 +32,9 @@ global-oasis-supplementary-code/
     `-- landcover_product_sensitivity/
         |-- README.md
         |-- run_workflow.py
-        |-- pilot_north_america_na02_analysis.py
         |-- submit_global_non_na_gee_tasks.py
-        |-- auto_submit_global_non_na_gee_tasks.py
-        |-- download_gee_results_rclone.py
         |-- merge_global_non_na_with_north_america.py
-        |-- gee_code_editor_global_non_na_esa_dw_2020.js
-        `-- gee_code_editor_arabian_peninsula_test_esa_dw_2020.js
+        `-- gee_code_editor_global_non_na_esa_dw_2020.js
 ```
 
 ## OasisID Retrieval and Quality Control
@@ -74,9 +68,8 @@ python scripts/supplementary_code_s2_oasisid_retrieval_statistics.py \
 
 The scripts in `scripts/landcover_product_sensitivity/` compare oasis internal
 land-cover composition derived from ESA WorldCover 2020 and Dynamic World 2020
-annual mode. The workflow includes Google Earth Engine computation scripts,
-local pilot analysis, optional task/download utilities, and final
-merge/statistical summaries.
+annual mode. The public workflow contains the Google Earth Engine computation,
+batch-submission, and final merge/statistical-summary steps.
 
 Basic status check:
 
@@ -90,7 +83,7 @@ Recommended workflow overview:
 python scripts/landcover_product_sensitivity/run_workflow.py --step workflow
 ```
 
-Final merge after CSV export and download:
+Final merge after the CSV exports are available:
 
 ```bash
 python scripts/landcover_product_sensitivity/run_workflow.py --step merge
@@ -142,4 +135,3 @@ steps can be inspected and rerun. Percentages are recalculated after summing
 Do not commit credentials. The `.gitignore` file excludes `rclone.conf`, OAuth
 tokens, Earth Engine private keys, raw downloaded CSVs, logs, and generated
 outputs.
-

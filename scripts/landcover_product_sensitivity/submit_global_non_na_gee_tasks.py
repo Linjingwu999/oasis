@@ -337,7 +337,7 @@ def write_status_rows(rows: dict[int, dict[str, Any]]) -> None:
         "description",
         "status",
         "gee_state",
-        "task_id",
+        "earth_engine_task_id",
         "lon0",
         "lat0",
         "lon1",
@@ -361,7 +361,7 @@ def make_pending_row(tile_info: dict[str, Any], description: str) -> dict[str, A
         "description": description,
         "status": "pending",
         "gee_state": "",
-        "task_id": "",
+        "earth_engine_task_id": "",
         "lon0": tile_info["lon0"],
         "lat0": tile_info["lat0"],
         "lon1": tile_info["lon1"],
@@ -420,7 +420,7 @@ def submit_tile(
         {
             "status": "running",
             "gee_state": task.status().get("state", ""),
-            "task_id": task.id,
+            "earth_engine_task_id": task.id,
             "message": "submitted",
         }
     )
@@ -484,7 +484,7 @@ def main() -> int:
                 {
                     "status": "success" if existing.get("state") == "COMPLETED" else "running",
                     "gee_state": existing.get("state", ""),
-                    "task_id": existing.get("id", ""),
+                    "earth_engine_task_id": existing.get("id", ""),
                     "message": "existing task found; skipped duplicate submission",
                 }
             )
@@ -507,8 +507,8 @@ def main() -> int:
             if did_submit:
                 submitted += 1
                 logging.info(
-                    "Submitted task_id=%s state=%s",
-                    row.get("task_id"),
+                    "Submitted earth_engine_task_id=%s state=%s",
+                    row.get("earth_engine_task_id"),
                     row.get("gee_state"),
                 )
             else:

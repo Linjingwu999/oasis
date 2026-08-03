@@ -22,10 +22,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_DIR = SCRIPT_DIR.parents[1]
 
 STEPS = {
-    "pilot-na": SCRIPT_DIR / "pilot_north_america_na02_analysis.py",
     "submit-global": SCRIPT_DIR / "submit_global_non_na_gee_tasks.py",
-    "auto-submit-global": SCRIPT_DIR / "auto_submit_global_non_na_gee_tasks.py",
-    "download": SCRIPT_DIR / "download_gee_results_rclone.py",
     "merge": SCRIPT_DIR / "merge_global_non_na_with_north_america.py",
 }
 
@@ -67,13 +64,10 @@ def print_workflow() -> None:
         "\n".join(
             [
                 "Recommended workflow for the ESA/Dynamic World product-sensitivity analysis:",
-                "1. pilot-na: analyze North America NA_02 as the pilot/test case.",
-                "2. submit-global: submit selected global non-North-America GEE batches.",
-                "3. auto-submit-global: optional unattended batch monitor/submission utility.",
-                "4. download: optional local utility to retrieve exported CSVs from Google Drive.",
-                "5. merge: merge global non-NA CSVs and existing North America CSVs, then recalculate percentages.",
+                "1. submit-global: submit selected global non-North-America GEE batches.",
+                "2. merge: merge global non-NA CSVs and existing North America CSVs, then recalculate percentages.",
                 "",
-                "Do not publish rclone.conf, Google tokens, or other local authorization files.",
+                "Do not publish Google tokens or other local authorization files.",
             ]
         )
     )
