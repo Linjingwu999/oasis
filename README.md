@@ -13,14 +13,8 @@ global-oasis-supplementary-code/
 |-- README.md
 |-- requirements.txt
 |-- .gitignore
-|-- data/
-|   `-- README.md
 |-- figures/
 |   `-- Supplementary_Figure_S2_OasisID_workflow.png
-|-- logs/
-|   `-- README.md
-|-- outputs/
-|   `-- README.md
 |-- docs/
 |   `-- FILE_MANIFEST.md
 `-- scripts/
