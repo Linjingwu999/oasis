@@ -12,17 +12,15 @@ attribute table can be used to support reproducible data retrieval, continent-
 and basin-level aggregation, patch-level queries, and basic data-quality checks.
 It is designed for the global oasis boundary dataset described in the manuscript.
 
-Important note on country-level area statistics
------------------------------------------------
-This script does NOT calculate country-level oasis areas. Some oasis polygons are
-associated with composite CountryID values because they intersect or are related
-to multiple countries. Exact country-level area statistics should be calculated
-by spatially overlaying the oasis boundary polygons with an authoritative national
-boundary layer. Therefore, no country_summary.csv is produced here.
+Country-level area statistics
+-----------------------------
+Some oasis polygons have composite CountryID values associated with multiple
+countries. Country-level oasis areas are calculated by spatially overlaying oasis
+polygons with an authoritative national boundary layer.
 
 The script can run in two modes:
 1) Attribute-table mode (recommended for lightweight reproduction):
-   Use Table S1 only. This mode requires no geometry file and reproduces
+   Use Table S1. This mode reproduces
    continent-, basin-, and patch-level summaries from the attribute table.
 
 2) Optional geometry-check mode:
@@ -37,18 +35,18 @@ OasisID, ContinentID, CountryID, BasinID, AreaID, Area, Longitude, Latitude, Per
 Example usage
 -------------
 # 1. Attribute table only
-python Supplementary_Code_S2_OasisID_retrieval_statistics_no_country_area.py \
+python scripts/supplementary_code_s2_oasisid_retrieval_statistics.py \
     --table "Table S1. Attribute description and coding information.xlsx" \
     --out S2_outputs
 
 # 2. Attribute table + split oasis shapefiles
-python Supplementary_Code_S2_OasisID_retrieval_statistics_no_country_area.py \
+python scripts/supplementary_code_s2_oasisid_retrieval_statistics.py \
     --table "Table S1. Attribute description and coding information.xlsx" \
     --vector-folder "./oasis_shapefiles" \
     --out S2_outputs
 
 # 3. Query examples
-python Supplementary_Code_S2_OasisID_retrieval_statistics_no_country_area.py \
+python scripts/supplementary_code_s2_oasisid_retrieval_statistics.py \
     --table "Table S1. Attribute description and coding information.xlsx" \
     --continent AS \
     --basin 12 \
@@ -71,10 +69,6 @@ CSV files are written to the output directory:
 - geometry_QA_summary.csv               (if vector files are supplied)
 - geometry_area_comparison.csv          (if vector files are supplied)
 
-Notes
------
-This script does not modify the oasis dataset. It provides reproducible examples
-of data retrieval and aggregation using the OasisID-based coding framework.
 """
 
 from __future__ import annotations
@@ -264,14 +258,13 @@ def make_quality_tables(df: pd.DataFrame, out_dir: Path) -> pd.DataFrame:
 # -----------------------------------------------------------------------------
 
 def summarize_by(df: pd.DataFrame, group_cols: Sequence[str]) -> pd.DataFrame:
-    """Summarize oasis count and area statistics by non-country coding units."""
+    """Summarize oasis count and area statistics by continent and basin."""
     missing = [c for c in group_cols if c not in df.columns]
     if missing:
         raise ValueError(f"Missing grouping columns: {missing}")
 
     if "CountryID" in group_cols:
         raise ValueError(
-            "Country-level area aggregation is intentionally disabled. "
             "Exact country-level oasis areas require spatial overlay with national boundaries."
         )
 
@@ -331,9 +324,8 @@ def check_areaid_rank(df: pd.DataFrame, out_dir: Path) -> pd.DataFrame:
     Check whether AreaID is consistent with descending Area rank within
     ContinentID-BasinID groups.
 
-    This matches the revised coding definition in which AreaID represents the
-    area-based ranking of oasis patches within the same basin. CountryID is not
-    used for the ranking check because some patches use composite CountryID codes.
+    AreaID represents the area-based ranking of oasis patches within each
+    ContinentID-BasinID group, including patches with composite CountryID values.
     """
     needed = {"ContinentID", "BasinID", "AreaID", "Area"}
     if not needed.issubset(df.columns):
@@ -467,7 +459,7 @@ def run_geometry_checks(
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="OasisID-based retrieval, non-country multi-scale statistics, and QA for the global oasis dataset."
+        description="OasisID-based retrieval, continent- and basin-level statistics, and QA for the global oasis dataset."
     )
     parser.add_argument("--table", required=True, help="Path to Table S1 (.xlsx, .xls, or .csv).")
     parser.add_argument("--out", default="S2_outputs", help="Output directory for CSV files.")
@@ -527,7 +519,6 @@ def main() -> None:
             area_tolerance_percent=args.area_tolerance_percent,
         )
 
-    print("Country-level area statistics are intentionally not calculated by this script.")
     print("For exact country-level areas, overlay oasis polygons with an authoritative national boundary layer.")
     print(f"All outputs written to: {out_dir.resolve()}")
 

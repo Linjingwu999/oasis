@@ -6,8 +6,6 @@ mapping and structural analysis study.
 The code provides OasisID retrieval, aggregation, and quality-control procedures based on the
    Table S1 attribute table.
 
-Large data files and local authorization files are excluded.
-
 ## Repository Structure
 
 ```text
@@ -56,22 +54,6 @@ python scripts/supplementary_code_s2_oasisid_retrieval_statistics.py \
   --out outputs/S2_oasisid_geometry_QA
 ```
 
-## Data Not Included
-
-The following files are required to fully reproduce the analysis but are not
-included by default:
-
-- Table S1 attribute table;
-- split oasis vector files, if geometry QA is needed.
-
-Recommended data layout:
-
-```text
-data/
-|-- Table_S1_attribute_description_and_coding_information.xlsx
-`-- oasis_shapefiles/
-```
-
 ## Installation
 
 ```bash
@@ -79,7 +61,4 @@ python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
-
-Do not commit credentials. The `.gitignore` file excludes local credentials,
-input datasets, logs, and generated outputs.
 
